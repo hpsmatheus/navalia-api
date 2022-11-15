@@ -22,4 +22,15 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 'error',
     '@typescript-eslint/explicit-function-return-type': ['error'],
   },
+
+  overrides: [
+    {
+      files: [
+        'api-exception.ts',
+        'request-context.builder.ts',
+        'request.interceptor.ts',
+      ],
+      rules: { '@typescript-eslint/no-explicit-any': 'off' },
+    },
+  ],
 };
