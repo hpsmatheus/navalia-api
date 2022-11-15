@@ -7,11 +7,20 @@ export default class ApiException extends HttpException {
     super(error, error.statusCode);
   }
 
-  static inputValidation(data?: unknown | never): ApiException {
+  static inputValidation(data?: unknown): ApiException {
     return new ApiException({
       errorCode: EErrorCode.INPUT_VALIDATION_ERROR,
       statusCode: HttpStatus.BAD_REQUEST,
       message: 'errors occurred during input validation',
+      data: data ?? {},
+    });
+  }
+
+  static notFound(resourceName: string, data?: unknown): ApiException {
+    return new ApiException({
+      errorCode: EErrorCode.NOT_FOUND,
+      statusCode: HttpStatus.NOT_FOUND,
+      message: `${resourceName} not found`,
       data: data ?? {},
     });
   }
