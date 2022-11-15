@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
 import Cart from 'src/typings/cart/cart.entity';
-import AddProductDto from 'src/typings/product/add-product.dto';
-import CartProduct from 'src/typings/product/cart-product.entity';
+import AddProductToCartDto from 'src/typings/cart/add-product.dto';
 import { ICacheClient } from '../cache/cache-client.interface';
 import ProductService from '../product/product.service';
+import CartProduct from 'src/typings/cart/cart-product.entity';
 
 const cartKey = (userEmail: string): string => `cart-${userEmail}`;
 
@@ -16,7 +16,7 @@ export default class CartService {
 
   public async addProduct(
     userEmail: string,
-    dto: AddProductDto,
+    dto: AddProductToCartDto,
   ): Promise<void> {
     const product = await this.productService.getById(dto.productId);
     const cart = await this.getCart(userEmail);

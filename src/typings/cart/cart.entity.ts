@@ -1,4 +1,4 @@
-import CartProduct from '../product/cart-product.entity';
+import CartProduct from './cart-product.entity';
 
 export default class Cart {
   userEmail: string;

@@ -1,7 +1,7 @@
 import { Body, Controller, Param, Patch } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SwaggerResponse } from 'src/core/swagger-response';
-import AddProductDto from 'src/typings/product/add-product.dto';
+import AddProductToCartDto from 'src/typings/cart/add-product.dto';
 import CartService from './cart.service';
 
 @ApiTags('Cart')
@@ -15,7 +15,7 @@ export default class CartController {
   @ApiResponse(SwaggerResponse.InputValidationError)
   public async addProduct(
     @Param('userEmail') userEmail: string,
-    @Body() dto: AddProductDto,
+    @Body() dto: AddProductToCartDto,
   ): Promise<void> {
     await this.cartService.addProduct(userEmail, dto);
   }
