@@ -5,8 +5,11 @@ import { ICacheClient } from '../cache/cache-client.interface';
 import ProductService from '../product/product.service';
 import CartProduct from 'src/typings/cart/cart-product.entity';
 import RemoveProductFromCartDto from 'src/typings/cart/remove-product.dto';
+import TotalPriceResponse from 'src/typings/cart/total-price.response';
+import _ from 'lodash';
 
 const cartKey = (userEmail: string): string => `cart-${userEmail}`;
+const baseLineNumberToGiveADiscount = 3;
 
 @Injectable()
 export default class CartService {
@@ -39,6 +42,29 @@ export default class CartService {
     const cart = await this.getCart(userEmail);
     this.removeProductFromCart(cart, product.id, dto.removeAll);
     await this.saveCart(userEmail, cart);
+  }
+
+  public async calcTotalPrice(userEmail: string): Promise<TotalPriceResponse> {
+    const cart = await this.getCart(userEmail);
+    const countCartItems = this.countItemsInCart(cart);
+    const priceWithoutDiscounts = this.calcPriceWithoutDiscounts(cart);
+    const numberOfDiscounts = Math.trunc(
+      countCartItems / baseLineNumberToGiveADiscount,
+    );
+
+    const products = [...cart.products];
+    let totalPrice = priceWithoutDiscounts;
+    for (let i = 0; i < numberOfDiscounts; i++) {
+      const index = products.indexOf(_.minBy(products, 'price'));
+      totalPrice -= products[index].price;
+      if (products[index].quantity === 1) {
+        products.splice(index, 1);
+      } else {
+        products[index].quantity--;
+      }
+    }
+
+    return { cart, totalPrice, priceWithoutDiscounts };
   }
 
   private async getCart(userEmail: string): Promise<Cart> {
@@ -78,5 +104,17 @@ export default class CartService {
 
   private async saveCart(userEmail, cart: Cart): Promise<void> {
     await this.cacheClient.setValue(cartKey(userEmail), cart);
+  }
+
+  private countItemsInCart(cart: Cart): number {
+    return cart.products
+      .map((product) => product.quantity)
+      .reduce((prev, next) => prev + next);
+  }
+
+  private calcPriceWithoutDiscounts(cart: Cart): number {
+    return cart.products
+      .map((product) => product.price * product.quantity)
+      .reduce((prev, next) => prev + next);
   }
 }

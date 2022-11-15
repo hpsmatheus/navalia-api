@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import Product from 'src/typings/product/product.entity';
+import Product from '../../typings/product/product.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import ApiException from 'src/core/error/api-exception';
+import ApiException from '../../core/error/api-exception';
 
 @Injectable()
 export default class ProductService {

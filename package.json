@@ -43,6 +43,7 @@
     "dotenv": "^16.0.1",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "jest-mock-extended": "^2.0.6",
+    "lodash": "^4.17.21",
     "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
