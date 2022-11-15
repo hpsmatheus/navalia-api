@@ -4,6 +4,7 @@ import AddProductToCartDto from 'src/typings/cart/add-product.dto';
 import { ICacheClient } from '../cache/cache-client.interface';
 import ProductService from '../product/product.service';
 import CartProduct from 'src/typings/cart/cart-product.entity';
+import RemoveProductFromCartDto from 'src/typings/cart/remove-product.dto';
 
 const cartKey = (userEmail: string): string => `cart-${userEmail}`;
 
@@ -30,6 +31,16 @@ export default class CartService {
     await this.saveCart(userEmail, cart);
   }
 
+  public async removeProduct(
+    userEmail: string,
+    dto: RemoveProductFromCartDto,
+  ): Promise<void> {
+    const product = await this.productService.getById(dto.productId);
+    const cart = await this.getCart(userEmail);
+    this.removeProductFromCart(cart, product.id, dto.removeAll);
+    await this.saveCart(userEmail, cart);
+  }
+
   private async getCart(userEmail: string): Promise<Cart> {
     const cart = await this.cacheClient.getValue(cartKey(userEmail));
     return cart ? (cart as Cart) : { userEmail, products: [] };
@@ -44,6 +55,24 @@ export default class CartService {
       cart.products[existingProductOnCart].quantity += product.quantity;
     } else {
       cart.products.push(product);
+    }
+  }
+
+  private removeProductFromCart(
+    cart: Cart,
+    productId: number,
+    removeAll: boolean,
+  ): void {
+    const existingProductOnCart = cart.products.findIndex(
+      (existingProduct) => existingProduct.id === productId,
+    );
+
+    if (existingProductOnCart >= 0) {
+      if (removeAll || cart.products[existingProductOnCart].quantity === 1) {
+        cart.products.splice(existingProductOnCart, 1);
+      } else {
+        cart.products[existingProductOnCart].quantity--;
+      }
     }
   }
 
