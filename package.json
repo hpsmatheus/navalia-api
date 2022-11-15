@@ -22,7 +22,11 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "pretypeorm": "npm run build",
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --config src/ormconfig.ts",
+    "typeorm:migrate": "npm run typeorm migration:generate -- -n",
+    "typeorm:run": "npm run typeorm migration:run"
   },
   "dependencies": {
     "@golevelup/ts-jest": "^0.3.3",
@@ -31,6 +35,7 @@
     "@nestjs/core": "^8.0.0",
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/swagger": "^5.2.1",
+    "@nestjs/typeorm": "^9.0.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
     "date-fns": "^2.29.3",
@@ -41,7 +46,9 @@
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
     "swagger-ui-express": "^4.4.0",
-    "uuid": "^8.3.2"
+    "typeorm": "^0.3.10",
+    "uuid": "^8.3.2",
+    "pg": "^8.7.3"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",
