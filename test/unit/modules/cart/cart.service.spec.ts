@@ -4,11 +4,10 @@ import CartService from '../../../../src/modules/cart/cart.service';
 import ProductService from '../../../../src/modules/product/product.service';
 
 describe('Cart Service', () => {
-  it('calcTotalPrice', async () => {
-    console.log('aaa');
-    const cacheClient = mock<ICacheClient>();
-    const productService = mock<ProductService>();
-    const service = new CartService(cacheClient, productService);
+  const cacheClient = mock<ICacheClient>();
+  const productService = mock<ProductService>();
+  const service = new CartService(cacheClient, productService);
+  it('calcTotalPrice 1', async () => {
     cacheClient.getValue.mockResolvedValueOnce({
       userEmail: 'email',
       products: [
@@ -18,6 +17,43 @@ describe('Cart Service', () => {
     });
 
     const result = await service.calcTotalPrice('email');
-    console.log(result);
+    expect(result.totalPrice).toBe(25);
+  });
+
+  it('calcTotalPrice 2', async () => {
+    cacheClient.getValue.mockResolvedValueOnce({
+      userEmail: 'email',
+      products: [{ id: 1, price: 12.99, quantity: 3 }],
+    });
+
+    const result = await service.calcTotalPrice('email');
+    expect(result.totalPrice).toBe(25.98);
+  });
+
+  it('calcTotalPrice 3', async () => {
+    cacheClient.getValue.mockResolvedValueOnce({
+      userEmail: 'email',
+      products: [
+        { id: 1, price: 12.99, quantity: 2 },
+        { id: 2, price: 25, quantity: 2 },
+      ],
+    });
+
+    const result = await service.calcTotalPrice('email');
+    expect(result.totalPrice).toBe(62.99);
+  });
+
+  it('calcTotalPrice 4', async () => {
+    cacheClient.getValue.mockResolvedValueOnce({
+      userEmail: 'email',
+      products: [
+        { id: 1, price: 12.99, quantity: 1 },
+        { id: 2, price: 25, quantity: 2 },
+        { id: 3, price: 20.65, quantity: 3 },
+      ],
+    });
+
+    const result = await service.calcTotalPrice('email');
+    expect(result.totalPrice).toBe(91.3);
   });
 });

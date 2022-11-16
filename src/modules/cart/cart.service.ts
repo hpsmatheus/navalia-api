@@ -64,7 +64,11 @@ export default class CartService {
       }
     }
 
-    return { cart, totalPrice, priceWithoutDiscounts };
+    return {
+      cart,
+      totalPrice: Number(totalPrice.toFixed(2)),
+      priceWithoutDiscounts,
+    };
   }
 
   private async getCart(userEmail: string): Promise<Cart> {
