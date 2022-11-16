@@ -93,8 +93,11 @@
     "coverageDirectory": "../coverage",
     "testEnvironment": "node",
     "coveragePathIgnorePatterns": [
+      "./src/migrations",
+      ".src/ormconfig.ts",
       "./src/main.ts",
-      "./src/app.module.ts"
+      "./src/app.module.ts",
+      ".schemas"
     ]
   }
 }
