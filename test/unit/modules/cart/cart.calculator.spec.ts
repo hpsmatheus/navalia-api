@@ -5,7 +5,7 @@ import Constants from '../../../constants';
 
 const mockCart = (products: CartProduct[]): Cart => {
   return {
-    userEmail: Constants.anyString,
+    userEmail: Constants.anyEmail,
     products,
   };
 };
