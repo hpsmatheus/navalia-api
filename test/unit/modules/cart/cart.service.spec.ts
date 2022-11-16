@@ -17,7 +17,7 @@ describe('Cart Service', () => {
     });
 
     const result = await service.calcTotalPrice('email');
-    expect(result.totalPrice).toBe(25);
+    expect(result.finalPrice).toBe(25);
   });
 
   it('calcTotalPrice 2', async () => {
@@ -27,7 +27,7 @@ describe('Cart Service', () => {
     });
 
     const result = await service.calcTotalPrice('email');
-    expect(result.totalPrice).toBe(25.98);
+    expect(result.finalPrice).toBe(25.98);
   });
 
   it('calcTotalPrice 3', async () => {
@@ -40,7 +40,7 @@ describe('Cart Service', () => {
     });
 
     const result = await service.calcTotalPrice('email');
-    expect(result.totalPrice).toBe(62.99);
+    expect(result.finalPrice).toBe(62.99);
   });
 
   it('calcTotalPrice 4', async () => {
@@ -54,6 +54,16 @@ describe('Cart Service', () => {
     });
 
     const result = await service.calcTotalPrice('email');
-    expect(result.totalPrice).toBe(91.3);
+    expect(result.finalPrice).toBe(91.3);
+  });
+
+  it('calcTotalPrice 5', async () => {
+    cacheClient.getValue.mockResolvedValueOnce({
+      userEmail: 'email',
+      products: [{ id: 1, price: 12.99, quantity: 2 }],
+    });
+
+    const result = await service.calcTotalPrice('email');
+    expect(result.finalPrice).toBe(25.98);
   });
 });
