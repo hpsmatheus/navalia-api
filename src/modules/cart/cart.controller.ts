@@ -1,8 +1,9 @@
-import { Body, Controller, Param, Patch } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SwaggerResponse } from 'src/core/swagger-response';
 import AddProductToCartDto from 'src/typings/cart/add-product.dto';
 import RemoveProductFromCartDto from 'src/typings/cart/remove-product.dto';
+import TotalPriceResponse from 'src/typings/cart/total-price.response';
 import CartService from './cart.service';
 
 @ApiTags('Cart')
@@ -30,5 +31,14 @@ export default class CartController {
     @Body() dto: RemoveProductFromCartDto,
   ): Promise<void> {
     await this.cartService.removeProduct(userEmail, dto);
+  }
+
+  @Get('total-price/:userEmail')
+  @ApiResponse(SwaggerResponse.Ok(TotalPriceResponse))
+  @ApiResponse(SwaggerResponse.NotFound)
+  public async getTotalPrice(
+    @Param('userEmail') userEmail: string,
+  ): Promise<TotalPriceResponse> {
+    return this.cartService.calcTotalPrice(userEmail);
   }
 }
