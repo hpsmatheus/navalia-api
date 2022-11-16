@@ -13,16 +13,6 @@ function ok(
   };
 }
 
-function created(
-  type?: Type<unknown> | Function | [Function] | string,
-): ApiResponseOptions {
-  return {
-    status: HttpStatus.CREATED,
-    description: 'success',
-    type,
-  };
-}
-
 const NotFound: ApiResponseOptions = {
   status: HttpStatus.NOT_FOUND,
   description: 'not found',
@@ -37,7 +27,6 @@ const InputValidationError: ApiResponseOptions = {
 
 export const SwaggerResponse = {
   Ok: ok,
-  Created: created,
   NotFound,
   InputValidationError,
 };
