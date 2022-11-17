@@ -1,11 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
-import Cart from 'src/typings/cart/cart.entity';
-import AddProductToCartDto from 'src/typings/cart/add-product.dto';
+import Cart from '../../../src/typings/cart/cart.entity';
+import AddProductToCartDto from '../../../src/typings/cart/add-product.dto';
 import { ICacheClient } from '../cache/cache-client.interface';
 import ProductService from '../product/product.service';
-import CartProduct from 'src/typings/cart/cart-product.entity';
-import RemoveProductFromCartDto from 'src/typings/cart/remove-product.dto';
-import TotalPriceResponse from 'src/typings/cart/total-price.response';
+import CartProduct from '../../../src/typings/cart/cart-product.entity';
+import RemoveProductFromCartDto from '../../../src/typings/cart/remove-product.dto';
+import TotalPriceResponse from '../../../src/typings/cart/total-price.response';
 import CartCalculator from './cart.calculator';
 
 const cartKey = (userEmail: string): string => `cart-${userEmail}`;

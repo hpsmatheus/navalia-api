@@ -1,9 +1,9 @@
 import { Body, Controller, Get, Param, Patch } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { SwaggerResponse } from '../../../src/core/swagger-response';
-import AddProductToCartDto from '../../../src/typings/cart/add-product.dto';
-import RemoveProductFromCartDto from '../../../src/typings/cart/remove-product.dto';
-import TotalPriceResponse from '../../../src/typings/cart/total-price.response';
+import { SwaggerResponse } from '../../core/swagger-response';
+import AddProductToCartDto from '../../typings/cart/add-product.dto';
+import RemoveProductFromCartDto from '../../typings/cart/remove-product.dto';
+import TotalPriceResponse from '../../typings/cart/total-price.response';
 import CartService from './cart.service';
 
 @ApiTags('Cart')

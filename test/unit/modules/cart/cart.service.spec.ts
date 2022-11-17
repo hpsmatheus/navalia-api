@@ -5,7 +5,7 @@ import { ICacheClient } from '../../../../src/modules/cache/cache-client.interfa
 import ProductService from '../../../../src/modules/product/product.service';
 import Constants from '../../../constants';
 import Cart from '../../../../src/typings/cart/cart.entity';
-import AddProductToCartDto from 'src/typings/cart/add-product.dto';
+import AddProductToCartDto from '../../../../src/typings/cart/add-product.dto';
 
 describe('CartsService', () => {
   const cacheClient = mock<ICacheClient>();

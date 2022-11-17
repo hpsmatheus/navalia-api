@@ -1,7 +1,7 @@
-import Cart from 'src/typings/cart/cart.entity';
-import TotalPriceResponse from 'src/typings/cart/total-price.response';
+import Cart from '../../../src/typings/cart/cart.entity';
+import TotalPriceResponse from '../../../src/typings/cart/total-price.response';
 import _ from 'lodash';
-import CartProduct from 'src/typings/cart/cart-product.entity';
+import CartProduct from '../../../src/typings/cart/cart-product.entity';
 
 const minQuantityToGiveDiscount = 3;
 

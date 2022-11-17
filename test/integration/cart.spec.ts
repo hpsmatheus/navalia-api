@@ -14,7 +14,7 @@ import AddProductToCartDto from '../../src/typings/cart/add-product.dto';
 import Constants from '../constants';
 import Cart from '../../src/typings/cart/cart.entity';
 import { EErrorCode } from '../../src/core/error/error-code.enum';
-import TotalPriceResponse from 'src/typings/cart/total-price.response';
+import TotalPriceResponse from '../../src/typings/cart/total-price.response';
 
 jest.setTimeout(900000);
 
