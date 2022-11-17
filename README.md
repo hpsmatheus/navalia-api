@@ -19,8 +19,11 @@ $ npm install
 
 ```bash
 $ docker compose up
+
 this will start postgres and adminer on local containers
 adminer is lighwheight DBMS that runs on browser
+
+alternatively you can set up your own local postgres database
 ```
 
 ```bash
@@ -42,18 +45,21 @@ the placeholders with the same values above
 
 ```bash
 $ npm run start:dev
+
+this will execute all pending migrations in the database
 ```
 
 ## API Docs
 
 [Swagger] http://localhost:3000/api-docs
 
-typings
+Typings with suffix `.dto.ts`, `.entity.ts` or `.response.ts` are automatically set to be read by swagger. This config is `nest-cli.json` file following
+[Nest.js standards](https://docs.nestjs.com/openapi/cli-plugin#using-the-cli-plugin)
 
-## Tests
+## Tests: unit and integration
 
 ```bash
-# unit tests
+# run all tests
 $ npm run test
 
 # test coverage
@@ -73,31 +79,27 @@ $ npm run lint:fix
 $ npm run format
 ```
 
-## Folder Structure
+## Architecture design
 
-```
-> src
-  > core                            (files that are used all over the API)
-     > error                        (files to do the error handling and format API errors)
-     > request-interceptor          (Nest.js interceptor to catch errors and do API logging)
-     > api-validation.pipe.ts       (Nest.js pipe to validate DTOs)
-     > swagger-response.ts          (abstraction to add and reuse swagger responses)
+1. The endpoints are organized following Nest.js standard structure of _Modulues, Controllers and Services_. The entry point module is the `app.module` that imports the other needed modules to make the endpoints available. This structure wraps all the endpoint dependencies inside a module and applies the singleton design pattern
+   when creating objects (done by nest.js in the background).
 
-  > modules
-
-
-  > typings             (contains all the API typings)
-
-  > test
-    > integration      (integration tests mocking external calls)
-    > mocks            (mocks used all over the tests using builder pattern)
-    > unit             (unit tests)
-```
-
-## Database
+2. The `src/core` folder contains shareable resources that are used throughout the application and are not related to a specific functional requirement.
 
 ## Error handling and logging
 
+Errors are handled by a global nest interceptor created in `src/core/request-interceptor/request.interceptor.ts` and configured in `src/main.ts`. This interceptor catches any error thrown in the application and makes sure that is going to be returned in a standard format.
+
+This same interceptor is also responsible for logging operation start, end and error with relevant data.
+
 ## Input validation
 
+All the input typings carry its own validations using [class-validator](https://www.npmjs.com/package/class-validator) decorators. The validations are triggered by a global nest.js validation pipe created in `src/core/api-validation-pipe.ts` and configured in `src/main`.
+
 ## Caching
+
+Currently the cart is stored in nest.js cache and has a TTL of 24 hours.
+
+## Migrations
+
+When starting the application for the first time, migrations to create and populate products will execute automatically.
