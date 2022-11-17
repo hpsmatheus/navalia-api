@@ -29,6 +29,7 @@ alternatively you can set up your own local postgres database
 ```bash
 -> access adminer on your localhost:8080
 
+* system: PostgreSQL
 * server: db
 * username: pgsql
 * password: pgsql
