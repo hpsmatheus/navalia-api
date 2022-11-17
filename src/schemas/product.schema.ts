@@ -1,4 +1,4 @@
-import Product from 'src/typings/product/product.entity';
+import Product from '../../src/typings/product/product.entity';
 import { EntitySchema } from 'typeorm';
 
 const ProductSchema = new EntitySchema<Product>({
