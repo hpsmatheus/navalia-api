@@ -53,7 +53,7 @@ this will execute all pending migrations in the database
 
 [Swagger] http://localhost:3000/api-docs
 
-Typings with suffix `.dto.ts`, `.entity.ts` or `.response.ts` are automatically set to be read by swagger. This config is `nest-cli.json` file following
+Typings with suffix `.dto.ts`, `.entity.ts` or `.response.ts` are automatically set to be read by swagger. This config is in `nest-cli.json` file following
 [Nest.js standards](https://docs.nestjs.com/openapi/cli-plugin#using-the-cli-plugin)
 
 ## Tests: unit and integration
@@ -64,6 +64,8 @@ $ npm run test
 
 # test coverage
 $ npm run test:cov
+
+Integration tests validate comunication between layers, error handling and input validation mocking external calls.
 ```
 
 ## Linter and formatting
@@ -81,7 +83,7 @@ $ npm run format
 
 ## Architecture design
 
-1. The endpoints are organized following Nest.js standard structure of _Modulues, Controllers and Services_. The entry point module is the `app.module` that imports the other needed modules to make the endpoints available. This structure wraps all the endpoint dependencies inside a module and applies the singleton design pattern
+1. The endpoints are organized following Nest.js standard structure of _Modules, Controllers and Services_. The entry point module is the `app.module` that imports the other needed modules to make the endpoints available. This structure wraps all the endpoint dependencies inside a module and applies the singleton design pattern
    when creating objects (done by nest.js in the background).
 
 2. The `src/core` folder contains shareable resources that are used throughout the application and are not related to a specific functional requirement.
